@@ -1,6 +1,6 @@
-# SuperComplex Framework
+# SuperComplex
 
-SuperComplex is an innovative Python-based framework for creating and running swarm AI on distributed mobile devices with different contexts. Unlike traditional AI approaches that focus on large language models, SuperComplex generates many small, independent AI agents that can be hosted on devices as compact as an iPhone.
+SuperComplex is a framework for creating and running swarm AI on distributed mobile devices with different contexts. Unlike traditional AI approaches that focus on large language models, SuperComplex generates many small, independent AI agents that can be hosted on devices as compact as an iPhone.
 
 ## Key Features
 
