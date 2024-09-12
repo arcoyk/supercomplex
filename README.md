@@ -1,3 +1,6 @@
+![CleanShot 2024-09-13 at 00 19 26@2x](https://github.com/user-attachments/assets/597152c1-c1c0-43c8-ab03-00fb794cbd52)
+
+
 # SuperComplex
 
 SuperComplex is a framework for creating and running swarm AI on distributed mobile devices with different contexts. Unlike traditional AI approaches that focus on large language models, SuperComplex generates many small, independent AI agents that can be hosted on devices as compact as an iPhone.
