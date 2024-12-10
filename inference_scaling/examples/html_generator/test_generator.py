@@ -1,4 +1,4 @@
-from html_generator import generate_html
+from html_generator import generate_html, groq
 
 # Test prompts
 test_inputs = [

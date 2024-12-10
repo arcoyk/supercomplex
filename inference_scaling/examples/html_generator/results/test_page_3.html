@@ -1,108 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pâtisserie La Douceur</title>
+    <title>Pâtisserie Delights - French Bakery</title>
     <style>
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
         }
 
         body {
             font-family: Arial, sans-serif;
             line-height: 1.6;
-            background-color: #f5f5f5;
+            color: #333;
         }
 
         header {
-            background-color: #333;
+            background-color: #4CAF50;
+            padding: 1rem;
+        }
+
+        header h1 {
             color: white;
             text-align: center;
-            padding: 1rem;
+            margin-bottom: 0;
         }
 
         main {
-            max-width: 1200px;
-            margin: 2rem auto;
-            overflow: hidden;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            padding: 2rem;
         }
 
-        h1 {
-            font-size: 2.5rem;
-            color: #333;
+        main .card {
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            width: 30%;
+            margin-bottom: 2rem;
             text-align: center;
+            padding: 1.5rem;
+        }
+
+        main .card img {
+            width: 150px;
+            height: 150px;
             margin-bottom: 1rem;
         }
 
-        p {
-            color: #666;
+        main .card h2 {
+            margin-bottom: 0.5rem;
         }
 
-        .featured-pastry {
-            float: left;
-            width: 33.33%;
-            padding: 1rem;
-        }
-
-        .featured-pastry img {
-            width: 100%;
-            height: auto;
-        }
-
-        .description {
-            margin-top: 1rem;
+        main .card p {
+            line-height: 1.4;
         }
 
         footer {
-            background-color: #333;
-            color: white;
-            text-align: center;
+            background-color: #4CAF50;
             padding: 1rem;
-        }
-
-        @media screen and (max-width: 768px) {
-            .featured-pastry {
-                width: 100%;
-            }
+            text-align: center;
+            color: white;
         }
     </style>
 </head>
-
 <body>
     <header>
-        <h1>Pâtisserie La Douceur</h1>
+        <h1>Pâtisserie Delights</h1>
     </header>
     <main>
-        <h1>French Pastries Handcrafted Daily</h1>
-        <div class="featured-pastry">
+        <div class="card">
             <img src="croissant.jpg" alt="Croissant">
-            <div class="description">
-                <h2>Croissants</h2>
-                <p>Buttery and flaky, our croissants are made from scratch daily.</p>
-            </div>
+            <h2>Fresh Croissants</h2>
+            <p>Delicious, flaky croissants baked daily.</p>
         </div>
-        <div class="featured-pastry">
+        <div class="card">
             <img src="macaron.jpg" alt="Macaron">
-            <div class="description">
-                <h2>Macarons</h2>
-                <p>Delicate and colorful, our macarons come in a variety of flavors.</p>
-            </div>
+            <h2>Colorful Macarons</h2>
+            <p>A variety of flavors to choose from.</p>
         </div>
-        <div class="featured-pastry">
-            <img src="cannoli.jpg" alt="Cannoli">
-            <div class="description">
-                <h2>Cannoli</h2>
-                <p>Our cannoli are filled with rich, creamy custard.</p>
-            </div>
+        <div class="card">
+            <img src="eclair.jpg" alt="Éclair">
+            <h2>Creamy Éclairs</h2>
+            <p>Rich and decadent éclairs.</p>
         </div>
     </main>
     <footer>
-        <p>Copyright © 2022 Pâtisserie La Douceur</p>
+        Copyright &copy; 2022 Pâtisserie Delights - French Bakery
     </footer>
 </body>
-
 </html>
