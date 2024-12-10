@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pâtisserie La Douceur</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f5f5f5;
+        }
+
+        header {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 2rem auto;
+            overflow: hidden;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #333;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        p {
+            color: #666;
+        }
+
+        .featured-pastry {
+            float: left;
+            width: 33.33%;
+            padding: 1rem;
+        }
+
+        .featured-pastry img {
+            width: 100%;
+            height: auto;
+        }
+
+        .description {
+            margin-top: 1rem;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        @media screen and (max-width: 768px) {
+            .featured-pastry {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Pâtisserie La Douceur</h1>
+    </header>
+    <main>
+        <h1>French Pastries Handcrafted Daily</h1>
+        <div class="featured-pastry">
+            <img src="croissant.jpg" alt="Croissant">
+            <div class="description">
+                <h2>Croissants</h2>
+                <p>Buttery and flaky, our croissants are made from scratch daily.</p>
+            </div>
+        </div>
+        <div class="featured-pastry">
+            <img src="macaron.jpg" alt="Macaron">
+            <div class="description">
+                <h2>Macarons</h2>
+                <p>Delicate and colorful, our macarons come in a variety of flavors.</p>
+            </div>
+        </div>
+        <div class="featured-pastry">
+            <img src="cannoli.jpg" alt="Cannoli">
+            <div class="description">
+                <h2>Cannoli</h2>
+                <p>Our cannoli are filled with rich, creamy custard.</p>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <p>Copyright © 2022 Pâtisserie La Douceur</p>
+    </footer>
+</body>
+
+</html>

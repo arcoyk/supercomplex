@@ -7,17 +7,19 @@ test_inputs = [
     "generate a landing page for my new bakery that specializes in French pastries"
 ]
 
+def save(path, html):
+    # Save to a test file
+    with open(path, 'w') as f:
+        f.write(html)
+    print(f"Generated {path} successfully!")
+
 # Generate HTML for each test input
 for i, text in enumerate(test_inputs, 1):
     try:
         print(f"\nGenerating HTML for test {i}: {text[:50]}...")
         html = generate_html(text)
-        
-        # Save to a test file
-        filename = f'results/test_page_{i}.html'
-        with open(filename, 'w') as f:
-            f.write(html)
-        print(f"Generated {filename} successfully!")
+        path = f'results/test_page_{i}.html'
+        save(path, html)
         
     except Exception as e:
         print(f"Error generating HTML for test {i}: {str(e)}")
