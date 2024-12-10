@@ -14,7 +14,7 @@ for i, text in enumerate(test_inputs, 1):
         html = generate_html(text)
         
         # Save to a test file
-        filename = f'test_page_{i}.html'
+        filename = f'results/test_page_{i}.html'
         with open(filename, 'w') as f:
             f.write(html)
         print(f"Generated {filename} successfully!")

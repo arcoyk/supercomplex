@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio - Photography</title>
+    <meta name="description" content="Welcome to my photography portfolio, showcasing captivating moments through images.">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lozad@1.15.0/dist/lozad.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav aria-label="Main navigation">
+        <button class="nav-link" data-link="home">Home</button>
+        <button class="nav-link" data-link="about">About</button>
+        <button class="nav-link" data-link="gallery">Gallery</button>
+        <button class="nav-link" data-link="contact">Contact</button>
+    </nav>
+
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <h1>Welcome to My Photography Portfolio</h1>
+            <p>Capturing moments, one photo at a time.</p>
+        </div>
+    </header>
+
+    <!-- Gallery -->
+    <main>
+        <section class="gallery">
+            <img class="lozad" data-src="photography-1.jpg" alt="Photography 1" loading="lazy">
+            <img class="lozad" data-src="photography-2.jpg" alt="Photography 2" loading="lazy">
+            <img class="lozad" data-src="photography-3.jpg" alt="Photography 3" loading="lazy">
+            <img class="lozad" data-src="photography-4.jpg" alt="Photography 4" loading="lazy">
+            <img class="lozad" data-src="photography-5.jpg" alt="Photography 5" loading="lazy">
+            <img class="lozad" data-src="photography-6.jpg" alt="Photography 6" loading="lazy">
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2022 Photography Portfolio. All rights reserved.</p>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/lozad@1.15.0/dist/lozad.min.js"></script>
+    <script src="scripts.js"></script>
+</body>
+
+</html>
+
+(styles.css)
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    height: 100vh;
+    background-image: linear-gradient(rgba(0, 119, 204, 0.6), rgba(0, 71, 135, 0.6)), url(header-image.jpg);
+    background-position: center;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-align: center;
+}
+
+main {
+    flex: 1;
+    padding: 2rem;
+}
+
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+    gap: 1rem;
+}
+
+footer {
+    padding: 1rem;
+    background-color: #333;
+    color: white;
+    text-align: center;
+}
+
+nav {
+    background-color: #333;
+    color: white;
+    display: flex;
+    justify-content: space-around;
+    padding: 1rem;
+}
+
+nav button {
+    color: white;
+    text-decoration: none;
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+@media (max-width: 600px) {
+    header {
+        height: 50vh;
+    }
+}
+
+(scripts.js)
+const navLinks = document.querySelectorAll('.nav-link');
+
+navLinks.forEach(link => {
+    link.addEventListener('click', e => {
+        e.preventDefault();
+        const href = link.getAttribute('data-link');
+        document.querySelector(href).scrollIntoView({ behavior: 'smooth' });
+    });
+});
+
+const observer = lozad('.lozad', {
+    loaded: function (el) {
+        el.src = el.getAttribute('data-src');
+    }
+});
+
+observer.observe();

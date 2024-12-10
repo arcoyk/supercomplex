@@ -10,16 +10,9 @@ test_inputs = [
 # Generate HTML for each test input
 for i, text in enumerate(test_inputs, 1):
     try:
-        print(f"\nGenerating HTML for test {i}: {text[:50]}...")
-        html = generate_html_with_iterations(text)
-        
-        # Save to a test file
-        filename = f'test_page_{i}.html'
-        with open(filename, 'w') as f:
-            f.write(html)
-        print(f"Generated {filename} successfully!")
-        
+        path = f"results/test_page_{i}.html"
+        html = generate_html_with_iterations(text, n=3, path=path)
     except Exception as e:
-        print(f"Error generating HTML for test {i}: {str(e)}")
+        print(f"Error in test {i}: {str(e)}")
 
-print("\nDone! You can open the generated HTML files in a browser to view them.")
+print("\nDone! Generated HTML files can be opened in a browser.")
