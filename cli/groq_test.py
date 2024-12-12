@@ -2,7 +2,6 @@
 import os
 import yaml
 from groq import Groq
-from datetime import datetime
 import pathlib
 
 class GroqCLI:
@@ -10,18 +9,22 @@ class GroqCLI:
         self.client = Groq(api_key=os.environ["GROQ_API_KEY"])
         self.messages = []
         self.memories_file = pathlib.Path.home() / '.groq_memories.yaml'
-        self.load_memories()
+        self.memories = []
+        self.save_memories()  # Start fresh with empty memories
 
     def load_memories(self):
         if self.memories_file.exists():
             try:
                 with open(self.memories_file, 'r') as f:
-                    self.memories = yaml.safe_load(f) or []
+                    loaded_memories = yaml.safe_load(f)
+                    if isinstance(loaded_memories, list):
+                        self.memories = loaded_memories
+                    else:
+                        self.memories = []
             except yaml.YAMLError:
                 self.memories = []
         else:
             self.memories = []
-        self.save_memories()
 
     def save_memories(self):
         with open(self.memories_file, 'w') as f:
@@ -35,7 +38,7 @@ class GroqCLI:
             {
                 "role": "system",
                 "content": """You are a memory analyzer. Given the user's input and stored memories, determine if any memories are relevant.
-                If relevant memories exist, incorporate them into a brief response.
+                If relevant memories exist, incorporate them naturally into a brief response.
                 If no memories are relevant, respond with 'No relevant memories.'"""
             },
             {
