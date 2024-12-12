@@ -29,20 +29,19 @@ class GroqCLI:
 
     def check_memories(self, user_input):
         if not self.memories:
-            return "No memories stored yet."
+            return None
 
         memory_check_messages = [
             {
                 "role": "system",
                 "content": """You are a memory analyzer. Given the user's input and stored memories, determine if any memories are relevant.
-                If relevant memories exist, naturally incorporate them into a brief response.
-                Focus on personal details, preferences, and important facts about the user.
+                If relevant memories exist, incorporate them into a brief response.
                 If no memories are relevant, respond with 'No relevant memories.'"""
             },
             {
                 "role": "user",
                 "content": f"Current input: '{user_input}'\n\nStored memories:\n" + 
-                          "\n".join([f"- {m['content']} ({m['timestamp']})" for m in self.memories])
+                          "\n".join(self.memories)
             }
         ]
         
@@ -52,19 +51,26 @@ class GroqCLI:
             temperature=0.5,
         )
         
-        return completion.choices[0].message.content
+        response = completion.choices[0].message.content
+        return None if response == "No relevant memories." else response
 
     def analyze_for_memories(self, conversation):
         memory_analysis_messages = [
             {
                 "role": "system",
-                "content": """You are a memory analyzer. Analyze the conversation for important information about the user.
+                "content": """You are a memory analyzer. Extract important facts about the user in simple bullet point format.
                 Focus on:
-                - Personal details (name, preferences, interests)
+                - Name, age, location
+                - Preferences and likes/dislikes
                 - Important facts or experiences
-                - Significant statements or opinions
-                If you find something worth remembering, provide a clear, concise statement.
-                If nothing is worth remembering, respond with 'Nothing to memorize.'"""
+                - Family and relationships
+                
+                Format each memory as a simple bullet point starting with a dash (-).
+                If nothing is worth remembering, respond with 'Nothing to memorize.'
+                Example format:
+                - user name is John
+                - likes pizza and ice cream
+                - visited Paris three times"""
             },
             {
                 "role": "user",
@@ -80,24 +86,15 @@ class GroqCLI:
         
         memory_content = completion.choices[0].message.content
         if memory_content.lower() != "nothing to memorize.":
-            new_memory = {
-                "content": memory_content,
-                "timestamp": datetime.now().isoformat(),
-                "conversation_context": [
-                    {
-                        "role": msg["role"],
-                        "content": msg["content"]
-                    } for msg in conversation
-                ]
-            }
-            self.memories.append(new_memory)
+            # Split into individual bullet points and add new ones
+            new_points = [point.strip() for point in memory_content.split('\n') if point.strip().startswith('-')]
+            for point in new_points:
+                if point not in self.memories:
+                    self.memories.append(point)
             self.save_memories()
-            return f"[Memorized] {memory_content}"
-        return None
 
     def run(self):
-        print("Welcome to Groq CLI with Memory (Press Ctrl+C to exit)")
-        print("Memories are stored in:", self.memories_file)
+        print("Welcome to Groq CLI (Press Ctrl+C to exit)")
         
         try:
             while True:
@@ -105,17 +102,13 @@ class GroqCLI:
                 if not user_input:
                     continue
 
-                # Check memories before responding
-                relevant_memories = self.check_memories(user_input)
-                if relevant_memories != "No relevant memories." and relevant_memories != "No memories stored yet.":
-                    print("groq > [Memory] " + relevant_memories)
-
                 # Add user message to history
                 self.messages.append({"role": "user", "content": user_input})
                 
-                # Include memory context in the conversation
+                # Check memories silently and include in context
+                relevant_memories = self.check_memories(user_input)
                 completion_messages = self.messages.copy()
-                if relevant_memories != "No relevant memories." and relevant_memories != "No memories stored yet.":
+                if relevant_memories:
                     completion_messages.insert(0, {
                         "role": "system",
                         "content": f"Context from previous conversations: {relevant_memories}"
@@ -135,10 +128,8 @@ class GroqCLI:
                 # Add assistant response to history
                 self.messages.append({"role": "assistant", "content": response})
                 
-                # Analyze conversation for memories after each exchange
-                memory_result = self.analyze_for_memories(self.messages[-2:])
-                if memory_result:
-                    print("groq >", memory_result)
+                # Silently analyze and store memories
+                self.analyze_for_memories(self.messages[-2:])
                 
         except KeyboardInterrupt:
             print("\nGoodbye!")
