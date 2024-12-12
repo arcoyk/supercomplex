@@ -18,7 +18,7 @@ class GroqCLI:
                 with open(self.memories_file, 'r') as f:
                     loaded_memories = yaml.safe_load(f)
                     if isinstance(loaded_memories, list):
-                        self.memories = loaded_memories
+                        self.memories = [m for m in loaded_memories if isinstance(m, str) and m.startswith('-')]
                     else:
                         self.memories = []
             except yaml.YAMLError:
@@ -27,6 +27,8 @@ class GroqCLI:
             self.memories = []
 
     def save_memories(self):
+        # Clean up memories before saving
+        self.memories = [m for m in self.memories if isinstance(m, str) and m.startswith('-')]
         with open(self.memories_file, 'w') as f:
             yaml.dump(self.memories, f, default_flow_style=False, sort_keys=False, allow_unicode=True)
 
@@ -61,19 +63,16 @@ class GroqCLI:
         memory_analysis_messages = [
             {
                 "role": "system",
-                "content": """You are a memory analyzer. Extract important facts about the user in simple bullet point format.
-                Focus on:
-                - Name, age, location
-                - Preferences and likes/dislikes
-                - Important facts or experiences
-                - Family and relationships
+                "content": """You are a memory analyzer. Extract important facts about the user as simple bullet points.
+                If you find something worth remembering, format it as a bullet point starting with '- '.
+                Focus on concrete facts like:
+                - name (e.g., "- user's name is John")
+                - preferences (e.g., "- likes pizza")
+                - experiences (e.g., "- visited Paris three times")
+                - relationships (e.g., "- has a sister named Mary")
                 
-                Format each memory as a simple bullet point starting with a dash (-).
-                If nothing is worth remembering, respond with 'Nothing to memorize.'
-                Example format:
-                - user name is John
-                - likes pizza and ice cream
-                - visited Paris three times"""
+                Only output bullet points for new, concrete information.
+                If nothing new to remember, respond with 'Nothing to memorize.'"""
             },
             {
                 "role": "user",
@@ -90,7 +89,8 @@ class GroqCLI:
         memory_content = completion.choices[0].message.content
         if memory_content.lower() != "nothing to memorize.":
             # Split into individual bullet points and add new ones
-            new_points = [point.strip() for point in memory_content.split('\n') if point.strip().startswith('-')]
+            new_points = [point.strip() for point in memory_content.split('\n') 
+                         if point.strip().startswith('-') and len(point.strip()) > 2]
             for point in new_points:
                 if point not in self.memories:
                     self.memories.append(point)
