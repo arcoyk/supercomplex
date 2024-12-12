@@ -10,7 +10,7 @@ class GroqCLI:
         self.messages = []
         self.memories_file = pathlib.Path.home() / '.groq_memories.yaml'
         self.memories = []
-        self.save_memories()  # Start fresh with empty memories
+        self.load_memories()
 
     def load_memories(self):
         if self.memories_file.exists():
@@ -98,11 +98,22 @@ class GroqCLI:
 
     def run(self):
         print("Welcome to Groq CLI (Press Ctrl+C to exit)")
+        print("Type '/memories' to view stored memories")
         
         try:
             while True:
                 user_input = input("user > ").strip()
                 if not user_input:
+                    continue
+                    
+                if user_input == '/memories':
+                    if self.memories:
+                        print("\nStored memories:")
+                        for memory in self.memories:
+                            print(memory)
+                        print()
+                    else:
+                        print("\nNo memories stored yet.\n")
                     continue
 
                 # Add user message to history
