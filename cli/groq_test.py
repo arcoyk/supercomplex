@@ -14,7 +14,7 @@ def main():
     try:
         while True:
             # Get user input
-            user_input = input("user > ")
+            user_input = input("\nuser > ")
             
             # Add user message to history
             messages.append({"role": "user", "content": user_input})
@@ -28,7 +28,7 @@ def main():
             
             # Get and print response
             response = chat_completion.choices[0].message.content
-            print("groq >", response)
+            print("\ngroq >", response)
             
             # Add assistant response to history
             messages.append({"role": "assistant", "content": response})
