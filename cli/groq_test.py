@@ -2,7 +2,12 @@
 import os
 from groq import Groq
 from datetime import datetime
-# Initialize the Groq client
+
+# Const
+MEMO_PATH = "memo.yaml"
+
+# Initialize
+messages = []
 client = Groq(api_key=os.environ["GROQ_API_KEY"])
 
 
@@ -17,17 +22,35 @@ def groq(prompt):
     return chat_completion.choices[0].message.content
 
 
-def save(path, t):
-    with open(path, 'a') as f:
+def save(path, t, mode='a'):
+    with open(path, mode) as f:
         f.write(t)
 
 
-def memorize(messages):
+def read(path):
+    with open(path) as f:
+        c = f.read()
+    return c
+
+
+def refine_memory():
+    prompt = f"""
+    This is a log of chat. Remove redundant logs.
+    """
+    mem = read(MEMO_PATH)
+    prompt = f"{prompt}\n---------\n{mem}"
+    mem = groq(prompt)
+    print(f"\n\n\n\n\n\n UPDATED ================== \n\n {mem}")
+    save(MEMO_PATH, mem, 'w')
+
+
+def memorize():
     prompt = f"""
     Summarize the user's key personal and context-specific facts in a concise YAML format. 
     Focus on the user’s attributes, interests, or expressed feelings. 
     Exclude general knowledge or unrelated details. 
     Keep it brief and essential.
+    Update or exclude [PREREQUISITE]
     """
     # Convert message history to readable format
     conversation = ""
@@ -37,14 +60,21 @@ def memorize(messages):
     memo = groq(prompt)    
     current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     memo = f"\n{current_time} ----------------------\n{memo}"
-    save("memo.yaml", memo)
+    save(MEMO_PATH, memo)
     print("\n[memorized]\n" + memo)
+
+
+def remember():
+    mem = read(MEMO_PATH)
+    rem = f"[PREREQUISITE] \n {mem}"
+    print(rem)
+    messages.append({"role": "system", "content": rem})
 
 
 def main():    
     # Store conversation history
-    messages = []
     print("Welcome to Groq CLI (Press Ctrl+C to exit)")
+    remember()
     try:
         while True:
             # Get user input
@@ -63,7 +93,8 @@ def main():
             # Add assistant response to history
             messages.append({"role": "assistant", "content": response})
     except KeyboardInterrupt:
-        memorize(messages)
+        memorize()
+        refine_memory()
         print("\nGoodbye!")
 
 if __name__ == "__main__":
