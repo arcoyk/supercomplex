@@ -22,7 +22,7 @@ def groq(prompt):
     return chat_completion.choices[0].message.content
 
 
-def save(path, t, mode='a'):
+def save(path, t, mode="a"):
     with open(path, mode) as f:
         f.write(t)
 
@@ -33,15 +33,20 @@ def read(path):
     return c
 
 
+def block(content, title, s="----------------"):
+    return f"[{title}]{s}\n{content}"
+
+
 def refine_memory():
-    prompt = f"""
-    This is a log of chat. Remove redundant logs.
-    """
-    mem = read(MEMO_PATH)
-    prompt = f"{prompt}\n---------\n{mem}"
-    mem = groq(prompt)
-    print(f"\n\n\n\n\n\n UPDATED ================== \n\n {mem}")
-    save(MEMO_PATH, mem, 'w')
+    memo = read(MEMO_PATH)
+    prompt = f"""This is a log of chat. Remove redundant logs ---------\n{memo}\n"""
+    memo = groq(prompt)
+    print(f"\n\n\n\n UPDATED ================== \n\n {memo}")
+    save(MEMO_PATH, memo, "w")
+
+
+def current_time():
+    return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 
 def memorize():
@@ -55,18 +60,19 @@ def memorize():
     # Convert message history to readable format
     conversation = ""
     for msg in messages:
-        conversation += f"{msg['role']}: {msg['content']}\n"    
+        if msg["role"] == "system":
+            continue
+        conversation += f"{msg['role']}: {msg['content']}\n"
     prompt += conversation
-    memo = groq(prompt)    
-    current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    memo = f"\n{current_time} ----------------------\n{memo}"
+    memo = groq(prompt)
+    memo = block(memo, current_time())
     save(MEMO_PATH, memo)
-    print("\n[memorized]\n" + memo)
+    print(block(memo, "[MEMORIZED]", s="====================="))
 
 
 def remember():
     mem = read(MEMO_PATH)
-    rem = f"[PREREQUISITE] \n {mem}"
+    rem = f"[USE INFO ONLY WHEN NEEDED] \n {mem}"
     print(rem)
     messages.append({"role": "system", "content": rem})
 
