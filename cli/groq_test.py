@@ -35,15 +35,7 @@ def read(path):
 
 
 def block(content, title, s="----------------"):
-    return f"[{title}]{s}\n{content}"
-
-
-def refine_memory():
-    memo = read(MEMO_PATH)
-    prompt = f"""This is a log of chat. Remove redundant logs ---------\n{memo}\n"""
-    memo = groq(prompt)
-    print(f"\n\n\n\n UPDATED ================== \n\n {memo}")
-    save(MEMO_PATH, memo, "w")
+    return f"\n[{title}]{s}\n{content}"
 
 
 def current_time():
@@ -67,15 +59,18 @@ def memorize():
     memo = groq(prompt)
     memo = block(memo, current_time())
     save(MEMO_PATH, memo)
-    print(block(memo, "[MEMORIZED]", s="====================="))
 
 
 def remember():
     guide = read(GUIDE_PATH)
-    mem = read(MEMO_PATH)
+    mem = f"[USE THIS MEMORY ONLY WHEN NEEDED] {read(MEMO_PATH)}"
     messages.append({"role": "system", "content": guide})
     messages.append({"role": "system", "content": mem})
+    print(guide, mem)
 
+
+# Add capability to choose proper memory on-the-fly on-demand.
+# This feature maybe a part of function calling / function selecting features.
 
 def main():    
     # Store conversation history
@@ -83,24 +78,18 @@ def main():
     remember()
     try:
         while True:
-            # Get user input
             user_input = input("\nuser > ")
-            # Add user message to history
             messages.append({"role": "user", "content": user_input})
             chat_completion = client.chat.completions.create(
                 messages=messages,
                 model="mixtral-8x7b-32768",
                 temperature=0.7,
             )
-            # Get and print response
             response = chat_completion.choices[0].message.content
-            # Create a chat completion
             print("\ngroq >", response)
-            # Add assistant response to history
             messages.append({"role": "assistant", "content": response})
     except KeyboardInterrupt:
         memorize()
-        refine_memory()
         print("\nGoodbye!")
 
 if __name__ == "__main__":

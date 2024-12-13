@@ -1,9 +1,20 @@
-Here is the cleaned up log:
 
-[2024-12-14 06:07:29]
+[2024-12-14 06:29:47]----------------
 user:
- name: Yui
- relation: Tom
- family\_relation: father's side grandfather
- favorite\_color: blue
- favorite\_food: chocolate
+  name: Yui
+  hair_color: red
+  father_favorite_color: red
+[2024-12-14 06:30:44]----------------
+name: Yui
+father_favorite_color: red
+[2024-12-14 06:34:18]----------------
+user:
+  - name: "Yui's father"
+    nationality: "Polish"
+    activity: "fishing"
+    no_of_fish: 12
+    meeting_plan: 
+      place: "same spot"
+      time: "tomorrow"
+    reminder: "X on the boat"
+    color_preference: "red"
