@@ -24,10 +24,10 @@ def save(path, t):
 
 def memorize(messages):
     prompt = f"""
-        Please summarize the users key personal and context-specific facts 
-        from our previous conversation into a concise YAML-formatted memory. 
-        Exclude general facts like 4+4=8 that are not personal or domain-specific. 
-        Keep it brief and essential.
+    Summarize the user's key personal and context-specific facts in a concise YAML format. 
+    Focus on the user’s attributes, interests, or expressed feelings. 
+    Exclude general knowledge or unrelated details. 
+    Keep it brief and essential.
     """
     # Convert message history to readable format
     conversation = ""
