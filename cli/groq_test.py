@@ -5,6 +5,7 @@ from datetime import datetime
 
 # Const
 MEMO_PATH = "memo.yaml"
+GUIDE_PATH = "guide.yaml"
 
 # Initialize
 messages = []
@@ -55,7 +56,6 @@ def memorize():
     Focus on the user’s attributes, interests, or expressed feelings. 
     Exclude general knowledge or unrelated details. 
     Keep it brief and essential.
-    Update or exclude [PREREQUISITE]
     """
     # Convert message history to readable format
     conversation = ""
@@ -71,10 +71,10 @@ def memorize():
 
 
 def remember():
+    guide = read(GUIDE_PATH)
     mem = read(MEMO_PATH)
-    rem = f"[USE INFO ONLY WHEN NEEDED] \n {mem}"
-    print(rem)
-    messages.append({"role": "system", "content": rem})
+    messages.append({"role": "system", "content": guide})
+    messages.append({"role": "system", "content": mem})
 
 
 def main():    

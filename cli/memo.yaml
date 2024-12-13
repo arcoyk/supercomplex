@@ -1,5 +1,9 @@
 Here is the cleaned up log:
 
-[2024-12-14 05:53:01]
-name: Yui
-interests: chocolate
+[2024-12-14 06:07:29]
+user:
+ name: Yui
+ relation: Tom
+ family\_relation: father's side grandfather
+ favorite\_color: blue
+ favorite\_food: chocolate
