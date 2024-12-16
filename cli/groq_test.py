@@ -38,13 +38,6 @@ def current_time():
     return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 
-def inference(n=3):
-    ms = [m for m in messages]
-    prompt = f"""
-<欠けている視点がないかよく考えて、ある場合は回答を改善してください>
-    """
-
-
 def refine_memory():
     mem = read(MEMO_PATH)
     prompt = f"""
@@ -100,6 +93,16 @@ Start conversation
     messages.append({"role": "system", "content": prompt})
 
 
+def inference(n=3):
+    ms = [m for m in messages]
+    prompt = f"""
+I'll carefully consider if there are any missing perspectives, and improve the response if there are.
+"""
+    for i in n:
+        print(f"{i}/{n} ================= INFERENCE")
+        groq(prompt, messages, "assistant")
+
+
 def init_all():
     print("Welcome to Groq CLI (Press Ctrl+C to exit)")
     add_guide()
@@ -112,6 +115,7 @@ def main():
         while True:
             user_input = input("\nuser > ")
             groq(user_input, messages, "user")
+            inference()
             # show_messages()
             print("\ngroq >", messages[-1]["content"])
     except KeyboardInterrupt:
