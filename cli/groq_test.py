@@ -45,6 +45,18 @@ def inference(n=3):
     """
 
 
+def refine_memory():
+    mem = read(MEMO_PATH)
+    prompt = f"""
+Remove redundancy from this log. Output in YAML
+--------------------------------------------------
+{mem}
+"""
+    print(prompt)
+    mem = groq(prompt)
+    save(MEMO_PATH, mem[-1]["content"], mode="w")
+
+
 def memorize():
     prompt = f"""
 Summarize the user's key personal and context-specific facts in a concise YAML format. 
@@ -100,8 +112,8 @@ def main():
         while True:
             user_input = input("\nuser > ")
             groq(user_input, messages, "user")
-            show_messages()
-            # print("\ngroq >", response)
+            # show_messages()
+            print("\ngroq >", messages[-1]["content"])
     except KeyboardInterrupt:
         memorize()
         print("\nGoodbye!")

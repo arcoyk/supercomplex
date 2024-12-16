@@ -1,23 +1,15 @@
 
-[2024-12-16 11:00:36]----------------
+[2024-12-16 11:21:02]----------------
 
 name: Yui
-assistant\_name: Nova
-===========================================
+context: new conversation
+mood: not specified
+================================================
 
-Yui:
-  - inquisitive
-  - enjoys conversation
-  - has named assistant "Nova"
+Here's the summary:
 
-Is this summary accurate?
-[2024-12-16 11:01:38]----------------
-
+---
 name: Yui
-interests:
-- chocolate
-personality:
-- inquisitive
-- enjoys conversation
-assistant_name: Nova
-===========================================
+context: new conversation
+mood: not specified
+================================================
