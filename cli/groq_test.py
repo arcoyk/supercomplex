@@ -94,13 +94,13 @@ Start conversation
 
 
 def inference(n=3):
-    ms = [m for m in messages]
     prompt = f"""
-I'll carefully consider if there are any missing perspectives, and improve the response if there are.
+Carefully consider if there are any missing perspectives, and improve the response if there are.
 """
-    for i in n:
+    for i in range(n):
         print(f"{i}/{n} ================= INFERENCE")
-        groq(prompt, messages, "assistant")
+        groq(prompt, messages, "user")
+        print(messages[-1]["content"])
 
 
 def init_all():
