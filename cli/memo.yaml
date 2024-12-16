@@ -1,20 +1,23 @@
 
-[2024-12-14 06:29:47]----------------
-user:
-  name: Yui
-  hair_color: red
-  father_favorite_color: red
-[2024-12-14 06:30:44]----------------
+[2024-12-16 11:00:36]----------------
+
 name: Yui
-father_favorite_color: red
-[2024-12-14 06:34:18]----------------
-user:
-  - name: "Yui's father"
-    nationality: "Polish"
-    activity: "fishing"
-    no_of_fish: 12
-    meeting_plan: 
-      place: "same spot"
-      time: "tomorrow"
-    reminder: "X on the boat"
-    color_preference: "red"
+assistant\_name: Nova
+===========================================
+
+Yui:
+  - inquisitive
+  - enjoys conversation
+  - has named assistant "Nova"
+
+Is this summary accurate?
+[2024-12-16 11:01:38]----------------
+
+name: Yui
+interests:
+- chocolate
+personality:
+- inquisitive
+- enjoys conversation
+assistant_name: Nova
+===========================================
